@@ -35,6 +35,7 @@ public class SharedPrefrences extends AppCompatActivity {
 
     public void saveSavings(List<SavingsItem> list) {
         SharedPreferences.Editor editor = prefs.edit();
+        editor.clear();
 
         editor.putInt("list_size", list.size());
 

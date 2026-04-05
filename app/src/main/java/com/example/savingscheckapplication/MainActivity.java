@@ -2,8 +2,11 @@ package com.example.savingscheckapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,6 +38,10 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, DynamicActivity.class);
                 startActivity(intent);
             });
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setDisplayShowTitleEnabled(false);
+            }
+            refreshUI();
             return insets;
         });
     }
@@ -69,4 +76,5 @@ public class MainActivity extends AppCompatActivity {
             container.invalidate();
             container.requestLayout();
         }
+
 }

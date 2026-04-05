@@ -47,6 +47,9 @@ public class DynamicActivity extends AppCompatActivity {
                 finish();
             }
             });
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setDisplayShowTitleEnabled(false);
+            }
             return insets;
         });
     }

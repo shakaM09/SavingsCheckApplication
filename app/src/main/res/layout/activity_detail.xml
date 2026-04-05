@@ -49,6 +49,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Withdraw Money" />
+        <Button
+            android:id="@+id/btnDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete Saving"
+            android:backgroundTint="#FF0000"
+            android:layout_marginTop="20dp"
+            android:elevation="10dp"/>
 
     </LinearLayout>
 </RelativeLayout>
