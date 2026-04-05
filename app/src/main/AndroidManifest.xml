@@ -12,6 +12,24 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SavingsCheckApplication">
         <activity
+            android:name=".DetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AlertActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DynamicActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SavingsItem"
+            android:exported="false" />
+        <activity
+            android:name=".SavingItem"
+            android:exported="false" />
+        <activity
+            android:name=".SharedPrefrences"
+            android:exported="false" />
+        <activity
             android:name=".SavingsAccount"
             android:exported="false"
             android:theme="@style/Theme.SavingsCheckApplication" />
