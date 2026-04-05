@@ -3,6 +3,7 @@ package com.example.savingscheckapplication;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,62 +16,62 @@ import androidx.core.view.WindowInsetsCompat;
 import java.util.List;
 
 public class DetailActivity extends AppCompatActivity {
-    private int savingIndex;
-    private SharedPrefrences storage;
     private TextView tvDisplayBalance;
-    private ImageView ivBackground;
+    private TextView tvDisplayName;
+    private Button btnDeposit, btnWithdraw;
+    private SharedPrefrences storage;
+    private int index;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
+
         setContentView(R.layout.activity_detail);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            // 1. Get the index sent from MainActivity
-            savingIndex = getIntent().getIntExtra("INDEX", 0);
-            storage = new SharedPrefrences(this);
 
-            tvDisplayBalance = findViewById(R.id.tvDisplayBalance);
-            ivBackground = findViewById(R.id.ivBackground);
+        index = getIntent().getIntExtra("INDEX", -1);
 
-            // 2. Show the data
-            updateUI();
+        storage = new SharedPrefrences(this);
 
-            // 3. Set up the buttons to go to AlertActivity
-            findViewById(R.id.btnDeposit).setOnClickListener(view -> {
-                startTransaction("Deposit");
-            });
+        tvDisplayBalance = findViewById(R.id.tvDisplayBalance);
+        tvDisplayName = findViewById(R.id.tvDisplayName);
+        btnDeposit = findViewById(R.id.btnDeposit);
+        btnWithdraw = findViewById(R.id.btnWithdraw);
 
-            findViewById(R.id.btnWithdraw).setOnClickListener(view -> {
-                startTransaction("Withdraw");
-            });
-            return insets;
+        btnDeposit.setOnClickListener(view -> {
+            Intent intent = new Intent(DetailActivity.this, AlertActivity.class);
+            intent.putExtra("ACTION", "Deposit");
+            intent.putExtra("INDEX", index);
+            startActivity(intent);
         });
-    }
-    private void updateUI() {
-        List<SavingsItem> list = storage.loadSavings();
-        SavingsItem currentItem = list.get(savingIndex);
 
-        tvDisplayBalance.setText(currentItem.getBalance() + " NIS");
-
-        if (!currentItem.getImageUri().equals("null")) {
-            ivBackground.setImageURI(Uri.parse(currentItem.getImageUri()));
-        }
-    }
-
-    private void startTransaction(String actionType) {
-        Intent intent = new Intent(this, AlertActivity.class);
-        intent.putExtra("ACTION", actionType);
-        intent.putExtra("INDEX", savingIndex);
-        startActivity(intent);
+        btnWithdraw.setOnClickListener(view -> {
+            Intent intent = new Intent(DetailActivity.this, AlertActivity.class);
+            intent.putExtra("ACTION", "Withdraw");
+            intent.putExtra("INDEX", index);
+            startActivity(intent);
+        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        // Refresh the balance when returning from AlertActivity
-        updateUI();
+        refreshData();
+    }
+
+    private void refreshData() {
+        List<SavingsItem> list = storage.loadSavings();
+
+        if (index == -1 || list == null || index >= list.size()) {
+            return;
+        }
+
+        SavingsItem currentItem = list.get(index);
+
+        if (tvDisplayName != null) {
+            tvDisplayName.setText(currentItem.getName());
+        }
+        if (tvDisplayBalance != null) {
+            tvDisplayBalance.setText(currentItem.getBalance() + " NIS");
+        }
     }
 }

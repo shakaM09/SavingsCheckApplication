@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
 
             storage = new SharedPrefrences(this);
 
-            // 2. Link the XML container second
             container = findViewById(R.id.savingsContainer);
 
             Button btnGo = findViewById(R.id.btnGoToDynamic);
@@ -42,19 +41,16 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onResume() {
             super.onResume();
-            // This runs every time you return to this screen
             refreshUI();
         }
 
         private void refreshUI() {
-            // SAFETY: If container is null, stop here so we don't crash
             if (container == null) return;
 
             container.removeAllViews();
 
             List<SavingsItem> list = storage.loadSavings();
 
-            // LOG: Check the bottom of Android Studio (Logcat) for "DEBUG_APP"
             android.util.Log.d("DEBUG_APP", "List size: " + list.size());
 
             for (int i = 0; i < list.size(); i++) {
@@ -70,5 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
                 container.addView(b);
             }
+            container.invalidate();
+            container.requestLayout();
         }
 }

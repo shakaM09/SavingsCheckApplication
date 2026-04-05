@@ -28,7 +28,6 @@ public class AlertActivity extends AppCompatActivity {
             final int index = getIntent().getIntExtra("INDEX", -1);
             final EditText etMoney = findViewById(R.id.etMoney);
 
-            // Changed the variable name 'v' or 'btnDone' to 'confirmButton'
             Button confirmButton = findViewById(R.id.btnConfirmTransaction);
 
             confirmButton.setOnClickListener(view -> {

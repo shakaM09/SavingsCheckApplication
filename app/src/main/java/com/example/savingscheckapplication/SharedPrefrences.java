@@ -33,24 +33,33 @@ public class SharedPrefrences extends AppCompatActivity {
         prefs = context.getSharedPreferences("SavingsData", Context.MODE_PRIVATE);
     }
 
+    public void saveSavings(List<SavingsItem> list) {
+        SharedPreferences.Editor editor = prefs.edit();
+
+        editor.putInt("list_size", list.size());
+
+        for (int i = 0; i < list.size(); i++) {
+            SavingsItem item = list.get(i);
+            String row = item.getName() + "|" + item.getBalance() + "|" + item.getImageUri();
+            editor.putString("item_" + i, row);
+        }
+
+        editor.apply();
+    }
+
     public List<SavingsItem> loadSavings() {
         List<SavingsItem> list = new ArrayList<>();
-        Set<String> dataSet = prefs.getStringSet("list", new HashSet<String>());
+        int size = prefs.getInt("list_size", 0);
 
-        for (String s : dataSet) {
-            String[] parts = s.split("\\|");
-            // Name | Balance | ImageUri
-            list.add(new SavingsItem(parts[0], Double.parseDouble(parts[1]), parts[2]));
+        for (int i = 0; i < size; i++) {
+            String row = prefs.getString("item_" + i, "");
+            if (!row.isEmpty()) {
+                String[] parts = row.split("\\|");
+                list.add(new SavingsItem(parts[0], Double.parseDouble(parts[1]), parts[2]));
+            }
         }
         return list;
     }
-
-    public void saveSavings(List<SavingsItem> list) {
-        Set<String> dataSet = new HashSet<>();
-        for (SavingsItem item : list) {
-            String row = item.getName() + "|" + item.getBalance() + "|" + item.getImageUri();
-            dataSet.add(row);
-        }
-        prefs.edit().putStringSet("list", dataSet).apply();
+    public SharedPrefrences() {
     }
 }

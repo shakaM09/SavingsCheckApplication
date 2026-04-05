@@ -10,6 +10,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.util.List;
+
 public class DynamicActivity extends AppCompatActivity {
     // 1. Declare variables at the top
     private EditText nameInput;
@@ -33,8 +35,15 @@ public class DynamicActivity extends AppCompatActivity {
             String amountStr = amountInput.getText().toString();
 
             if (!name.isEmpty() && !amountStr.isEmpty()) {
+                SharedPrefrences sp = new SharedPrefrences(DynamicActivity.this);
+                List<SavingsItem> list = sp.loadSavings();
+
+
                 double amount = Double.parseDouble(amountStr);
-                // Save the data...
+                list.add(new SavingsItem(name, amount, "null"));
+
+                sp.saveSavings(list);
+                android.widget.Toast.makeText(this, "Saved! Total: " + list.size(), android.widget.Toast.LENGTH_SHORT).show();
                 finish();
             }
             });

@@ -35,4 +35,6 @@ public class SavingsItem extends AppCompatActivity {
     public String getImageUri() { return imageUri; }
     public void setBalance(double balance) { this.balance = balance; }
     public void setImageUri(String imageUri) { this.imageUri = imageUri; }
+    public SavingsItem() {
+    }
 }

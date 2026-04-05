@@ -24,17 +24,7 @@
             android:name=".SavingsItem"
             android:exported="false" />
         <activity
-            android:name=".SavingItem"
-            android:exported="false" />
-        <activity
             android:name=".SharedPrefrences"
-            android:exported="false" />
-        <activity
-            android:name=".SavingsAccount"
-            android:exported="false"
-            android:theme="@style/Theme.SavingsCheckApplication" />
-        <activity
-            android:name=".CreateSaving"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
