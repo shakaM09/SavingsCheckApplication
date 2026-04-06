@@ -31,22 +31,12 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
         btnDelete = findViewById(R.id.btnDelete);
         btnDelete.setOnClickListener(v -> {
-            // 1. Load the current list from storage
             List<SavingsItem> list = storage.loadSavings();
 
-            // 2. Safety Check: Make sure the index is valid
             if (index != -1 && list != null && index < list.size()) {
-
-                // 3. Remove the item from the list
                 list.remove(index);
-
-                // 4. Save the NEW list (now missing one item) back to SharedPreferences
                 storage.saveSavings(list);
-
-                // 5. Tell the user it worked
                 android.widget.Toast.makeText(this, "Saving Deleted", android.widget.Toast.LENGTH_SHORT).show();
-
-                // 6. Close this screen and go back to MainActivity
                 finish();
             }
         });
@@ -81,7 +71,6 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        // Hide "Back to Details" since we are already there
         menu.findItem(R.id.menu_detail).setVisible(false);
         return true;
     }
@@ -92,7 +81,7 @@ public class DetailActivity extends AppCompatActivity {
 
         if (id == R.id.menu_main) {
             Intent intent = new Intent(this, MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Clears the "stack" so Main is fresh
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             return true;
         }

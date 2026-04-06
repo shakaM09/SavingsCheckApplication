@@ -88,7 +88,6 @@ public class AlertActivity extends AppCompatActivity {
         }
 
         else if (id == R.id.menu_detail) {
-            // Just calling finish() takes them back to the previous screen (Detail)
             finish();
             return true;
         }

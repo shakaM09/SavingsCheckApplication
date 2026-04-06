@@ -11,5 +11,18 @@
 
   <EditText android:id="@+id/etName" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Saving Name" />
   <EditText android:id="@+id/etAmount" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Initial Money" android:inputType="numberDecimal" />
+  <ImageView
+      android:id="@+id/ivCameraPreview"
+      android:layout_width="150dp"
+      android:layout_height="150dp"
+      android:layout_gravity="center"
+      android:src="@android:drawable/ic_menu_camera"
+      android:scaleType="centerCrop" />
+
+  <Button
+      android:id="@+id/btnLaunchCamera"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="pick a picture" />
   <Button android:id="@+id/btnSave" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Create" />
 </LinearLayout>
