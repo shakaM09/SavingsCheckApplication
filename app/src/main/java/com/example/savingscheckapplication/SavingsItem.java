@@ -7,37 +7,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-
-public class SavingsItem extends AppCompatActivity {
+public class SavingsItem {
     private String name;
     private double balance;
     private String imageUri;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_savings_item);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            if (getSupportActionBar() != null) {
-                getSupportActionBar().setDisplayShowTitleEnabled(false);
-            }
-            return insets;
-        });
-    }
     public SavingsItem(String name, double balance, String imageUri) {
         this.name = name;
         this.balance = balance;
         this.imageUri = imageUri;
     }
 
+    public SavingsItem() {}
+
     public String getName() { return name; }
     public double getBalance() { return balance; }
     public String getImageUri() { return imageUri; }
     public void setBalance(double balance) { this.balance = balance; }
     public void setImageUri(String imageUri) { this.imageUri = imageUri; }
-    public SavingsItem() {
-    }
 }

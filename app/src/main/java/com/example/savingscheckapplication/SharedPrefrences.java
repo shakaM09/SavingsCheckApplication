@@ -15,25 +15,19 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class SharedPrefrences extends AppCompatActivity {
+public class SharedPrefrences {
     private SharedPreferences prefs;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_shared_prefrences);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-    }
     public SharedPrefrences(Context context) {
         prefs = context.getSharedPreferences("SavingsData", Context.MODE_PRIVATE);
     }
 
+    public SharedPrefrences() {
+    }
+
     public void saveSavings(List<SavingsItem> list) {
+        if (prefs == null) return;
+
         SharedPreferences.Editor editor = prefs.edit();
         editor.clear();
 
@@ -41,7 +35,8 @@ public class SharedPrefrences extends AppCompatActivity {
 
         for (int i = 0; i < list.size(); i++) {
             SavingsItem item = list.get(i);
-            String row = item.getName() + "|" + item.getBalance() + "|" + item.getImageUri();
+            String imageUri = (item.getImageUri() != null) ? item.getImageUri() : "";
+            String row = item.getName() + "|" + item.getBalance() + "|" + imageUri;
             editor.putString("item_" + i, row);
         }
 
@@ -50,17 +45,30 @@ public class SharedPrefrences extends AppCompatActivity {
 
     public List<SavingsItem> loadSavings() {
         List<SavingsItem> list = new ArrayList<>();
+        if (prefs == null) return list;
+
         int size = prefs.getInt("list_size", 0);
 
         for (int i = 0; i < size; i++) {
             String row = prefs.getString("item_" + i, "");
             if (!row.isEmpty()) {
-                String[] parts = row.split("\\|");
-                list.add(new SavingsItem(parts[0], Double.parseDouble(parts[1]), parts[2]));
+                String[] parts = row.split("\\|", -1);
+                if (parts.length >= 2) {
+                    String name = parts[0];
+
+                    double balance = 0.0;
+                    try {
+                        balance = Double.parseDouble(parts[1]);
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
+
+                    String imageUri = (parts.length > 2) ? parts[2] : "";
+
+                    list.add(new SavingsItem(name, balance, imageUri));
+                }
             }
         }
         return list;
-    }
-    public SharedPrefrences() {
     }
 }

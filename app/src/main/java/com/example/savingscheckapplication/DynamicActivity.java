@@ -21,7 +21,6 @@ import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 public class DynamicActivity extends AppCompatActivity {
-    // 1. Declare variables at the top
     private EditText nameInput;
     private EditText amountInput;
     private Button btnSave,btnLaunchCamera;
@@ -109,12 +108,10 @@ public class DynamicActivity extends AppCompatActivity {
     private String bitmapToString(Bitmap bitmap) {
         if (bitmap == null) return "";
 
-        // 1. Shrink the actual Bitmap size first (400x400 is plenty for a button)
         Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, 400, 400, true);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-        // 2. Compress the quality to 50% to make the String even smaller
         scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
 
         byte[] b = baos.toByteArray();
